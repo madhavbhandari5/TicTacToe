@@ -1,34 +1,65 @@
-<html>
-    <head>
-        <title>TicTacToe Game</title>
-    </head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-   
-<body>
-    <div class="header_title">
-        <h1> Welcome to TicTacToe Game </h1>
-        <h3>Player 1 has token : X </h3>
-        <h3>Player 2 has token : O </h3>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TicTacToe Game</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montez&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header_title" id="welcome-info">
+      <h1>Welcome to TicTacToe Game</h1>
+      <h3>Player 1 has token <span>X</span></h3>
+      <h3>Player 2 has token <span>O</span></h3>
     </div>
-    
+
     <section>
+      <div id="selection-screen">
+        <h3>Select dimension</h3>
+        <button class="button button1" id="btn3" value="3">3x3</button>
+        <button class="button button2" id="btn4" value="4">4x4</button>
+        <button class="button button3" id="btn5" value="5">5x5</button>
+        <button class="button button4" id="btn6" value="6">6x6</button>
+      </div>
+      <div id="game_detail_provider" style="display: none">
         <h2 class="game_status"></h2>
-        <div class="game_cell_box">
-            <div data-cell-index="0" class="cell"></div>
-            <div data-cell-index="1" class="cell"></div>
-            <div data-cell-index="2" class="cell"></div>
-            <div data-cell-index="3" class="cell"></div>
-            <div data-cell-index="4" class="cell"></div>
-            <div data-cell-index="5" class="cell"></div>
-            <div data-cell-index="6" class="cell"></div>
-            <div data-cell-index="7" class="cell"></div>
-            <div data-cell-index="8" class="cell"></div>
-        </div>
-            
-            <button class="restart_game">Restart</button>
+      </div>
+
+      <div id="game-screen-3" style="display: none">
+        <div class="game_cell_box" id="showCellDiv"></div>
+        <br />
+      </div>
+
+      <div id="game-screen-4" style="display: none">
+        <div class="game_cell_box" id="showCellDiv"></div>
+        <br />
+      </div>
+
+      <div id="game-screen-5" style="display: none">
+        <div class="game_cell_box" id="showCellDiv"></div>
+        <br />
+      </div>
+
+      <div id="game-screen-6" style="display: none">
+        <div class="game_cell_box" id="showCellDiv"></div>
+        <br />
+      </div>
+
+      <div id="btn-groups" style="display: none">
+        <button class="restart_game">Restart</button>
+        <button class="choose_dim">Size Change</button>
+      </div>
     </section>
-
-    <script src="tictactoe.js"></script>
-</body>
-
+    <!-- <script src="tictactoe.js"></script> -->
+    <script type="module" src="./js/index.js"></script>
+  </body>
 </html>

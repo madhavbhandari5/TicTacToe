@@ -1,0 +1,194 @@
+:root {
+  --repeat-cell: 0;
+  --cell-player-color: rgba(45, 70, 185, 0.9);
+}
+
+* {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: auto 0;
+  background-image: linear-gradient(
+    45deg,
+    hsl(240deg 97% 35%) 0%,
+    hsl(260deg 100% 36%) 11%,
+    hsl(269deg 100% 38%) 22%,
+    hsl(276deg 100% 39%) 33%,
+    hsl(281deg 100% 40%) 44%,
+    hsl(286deg 100% 42%) 56%,
+    hsl(291deg 100% 43%) 67%,
+    hsl(296deg 100% 44%) 78%,
+    hsl(300deg 100% 45%) 89%,
+    hsl(304deg 100% 49%) 100%
+  );
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+  color: white;
+}
+.header_title {
+  text-align: center;
+}
+.header_title h1 {
+  font-family: "Montez", cursive;
+  font-size: 5.5rem;
+  padding: 0;
+  margin: 0;
+}
+.header_title h3 {
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.header_title span {
+  font-size: 2rem;
+  color: black;
+  margin-top: 5px;
+}
+section {
+  text-align: center;
+}
+#selection-screen h3 {
+  margin-top: 5rem;
+  font-family: "Montez", cursive;
+  font-size: 3rem;
+}
+.game_cell_box {
+  display: grid;
+  grid-template-columns: repeat(var(--repeat-cell), auto);
+  justify-content: center;
+
+  margin: auto;
+}
+
+.cell:hover {
+  color: rgb(184, 175, 52);
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  box-shadow: 2px 2px 2px 2px #ecd7ba;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  line-height: 100px;
+  font-size: 60px;
+  /* background-color: rgb(45, 70, 185); */
+  background-color: rgb(255, 223, 45);
+  color: rgb(14, 4, 4);
+}
+
+.game_status {
+  font-size: 4rem;
+  color: #fafafa;
+  margin: 20px auto;
+  font-family: "Montez", cursive;
+}
+
+.animation-effects {
+  border: 5px 0 solid red;
+  margin: 3% 30%;
+  animation-name: example;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes example {
+  from {
+    border-top: 5px solid red;
+    border-bottom: 5px solid red;
+  }
+  to {
+    border-top: 5px solid yellow;
+    border-bottom: 5px solid yellow;
+  }
+}
+
+.restart_game {
+  background-color: #fab8e0;
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+  color: rgb(3, 1, 1);
+  border-radius: 15px;
+  border: 0;
+  margin: auto;
+}
+
+.choose_dim {
+  background-color: #cdc7ee;
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+  color: #000;
+  border-radius: 15px;
+  margin: auto;
+  margin-left: 50px;
+  border: 0;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+
+.button1:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.button2 {
+  background-color: white;
+  color: black;
+  border: 2px solid #008cba;
+}
+
+.button2:hover {
+  background-color: #008cba;
+  color: white;
+}
+
+.button3 {
+  background-color: white;
+  color: black;
+  border: 2px solid #f44336;
+}
+
+.button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.button4 {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
+.button4:hover {
+  background-color: #555555;
+  color: white;
+}
