@@ -1,81 +1,20 @@
-export function handleResultValidation(dimension, gameState) {
-  let roundwon = false;
+export function handleResultValidation(dimension, gameState, currentPlayer) {
   const winningConditions = generateWinningConditions(dimension);
 
-  let numberOfLoop = winningConditions.length;
-
-  for (let i = 0; i < numberOfLoop; i++) {
-    const winCondition = winningConditions[i];
-    if (dimension === 3) {
-      let a = gameState[winCondition[0]];
-      let b = gameState[winCondition[1]];
-      let c = gameState[winCondition[2]];
-
-      if (a === "" || b === "" || c === "") {
-        continue;
-      }
-      if (a === b && b === c) {
-        roundwon = true;
-        break;
-      }
+  let gameStateArray = [];
+  let hasWon = false;
+  for (let i = 0; i < winningConditions.length; i++) {
+    for (let j = 0; j < dimension; j++) {
+      gameStateArray[j] = gameState[winningConditions[i][j]];
     }
 
-    if (dimension === 4) {
-      let a = gameState[winCondition[0]];
-      let b = gameState[winCondition[1]];
-      let c = gameState[winCondition[2]];
-      let d = gameState[winCondition[3]];
-
-      if (a === "" || b === "" || c === "" || d === "") {
-        continue;
-      }
-      if (a === b && b === c && c === d) {
-        roundwon = true;
-        break;
-      }
-    }
-
-    if (dimension === 5) {
-      let a = gameState[winCondition[0]];
-      let b = gameState[winCondition[1]];
-      let c = gameState[winCondition[2]];
-      let d = gameState[winCondition[3]];
-      let e = gameState[winCondition[4]];
-
-      if (a === "" || b === "" || c === "" || d === "" || e === "") {
-        continue;
-      }
-      if (a === b && b === c && c === d && d === e) {
-        roundwon = true;
-        break;
-      }
-    }
-
-    if (dimension === 6) {
-      let a = gameState[winCondition[0]];
-      let b = gameState[winCondition[1]];
-      let c = gameState[winCondition[2]];
-      let d = gameState[winCondition[3]];
-      let e = gameState[winCondition[4]];
-      let f = gameState[winCondition[5]];
-
-      if (
-        a === "" ||
-        b === "" ||
-        c === "" ||
-        d === "" ||
-        e === "" ||
-        f === ""
-      ) {
-        continue;
-      }
-      if (a === b && b === c && c === d && d === e && e === f) {
-        roundwon = true;
-        break;
-      }
-    }
+    hasWon = gameStateArray.every(function (element, index) {
+      return element === currentPlayer;
+    });
+    if (hasWon) break;
   }
-  return roundwon;
+
+  return hasWon;
 }
 
 function generateWinningConditions(dimension) {
@@ -115,5 +54,3 @@ function generateWinningConditions(dimension) {
   return winningConditions;
   //console.log(winningConditions);
 }
-
-const statusDisplay = document.querySelector(".game_status");

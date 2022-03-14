@@ -92,7 +92,7 @@ function handleCellClick(clickedCellEvent) {
   }
 
   handleCellPlayed(clickedCell, clickedCellIndex);
-  const roundwon = handleResultValidation(dimension, gameState);
+  const roundwon = handleResultValidation(dimension, gameState, currentPlayer);
 
   if (roundwon) {
     const gameStatusStringDom =
