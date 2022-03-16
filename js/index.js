@@ -1,16 +1,49 @@
-import { handleResultValidation } from "./checkWinningConditions.js";
-import { createGrid } from "./createGrid.js";
+import Grid from "./grid.js";
+import Player from "./player.js";
+import Cell from "./cell.js";
 
 const statusDisplay = document.querySelector(".game_status");
-document.querySelectorAll(".button").forEach((cell) =>
-  cell.addEventListener("click", function () {
-    findDimension(cell.value);
-  })
-);
+
+window.onload = (event) => {
+  main();
+};
 
 let playerDisplay;
-let dimension;
-function findDimension(val) {
+let gameActive = false;
+let cellObj;
+let gameState = [];
+let dimension = 0;
+let playerObj;
+
+function main() {
+  document.querySelectorAll(".button").forEach((cell) =>
+    cell.addEventListener("click", function () {
+      createGridBasedOnDimension(cell.value);
+      run();
+    })
+  );
+}
+
+function run() {
+  initializeGameState();
+  assignListeners();
+  playGame();
+}
+
+function initializeGameState() {
+  playerObj = new Player("X");
+  const size = dimension * dimension;
+  for (let i = 0; i < size; i++) {
+    gameState[i] = "";
+  }
+  cellObj = new Cell(dimension, playerObj, gameState);
+
+  statusDisplay.innerHTML = playerObj.currentPlayerTurn();
+  gameActive = true;
+}
+function createGridBasedOnDimension(val) {
+  dimension = parseInt(val);
+
   let info = document.getElementById("game_detail_provider");
   if (info.style.display === "none") {
     info.style.display = "block";
@@ -39,89 +72,47 @@ function findDimension(val) {
     btnGroups.style.display = "none";
   }
 
-  dimension = parseInt(val);
-
-  window.onload = setGameState(dimension);
-  //window.onload = setNewWinningConditions(val);
-
   const cellParentList = document.getElementsByClassName("game_cell_box");
-  playerDisplay = createGrid(dimension, cellParentList);
-  assignListeners();
+  const grid = new Grid(dimension, cellParentList);
+  playerDisplay = grid.createGrid();
 }
 
-let gameActive = true;
-let currentPlayer = "X";
+function playGame() {
+  if (playerObj) {
+    const roundwon = cellObj.getRoundWon();
+    if (!roundwon) {
+      statusDisplay.innerHTML = playerObj.currentPlayerTurn();
+    }
 
-let gameState = [];
-function setGameState(dimension) {
-  const size = dimension * dimension;
-  for (let i = 0; i < size; i++) {
-    gameState[i] = "";
+    if (roundwon) {
+      const gameStatusStringDom =
+        document.getElementsByClassName("game_status")[0];
+      gameStatusStringDom.classList.add("animation-effects");
+
+      statusDisplay.innerHTML = winningMessage();
+      gameActive = false;
+    } else {
+      let drawround = !gameState.includes("");
+      if (drawround) {
+        statusDisplay.innerHTML = drawMessage();
+        gameActive = false;
+      }
+    }
   }
-  return gameState;
 }
 
-const winningMessage = () => `Player ${currentPlayer} won the game...`;
+const winningMessage = () =>
+  `Player ${playerObj.getCurrentPlayer()} won the game...`;
 const drawMessage = () => `Game Draw...`;
 
-const currentPlayerTurn = () => `It's ${currentPlayer}'s turn.`;
-const mouseoverPlayer = () => `${currentPlayer}`;
-
-statusDisplay.innerHTML = currentPlayerTurn();
-
-function handleCellPlayed(clickedCell, clickedCellIndex) {
-  gameState[clickedCellIndex] = currentPlayer;
-  clickedCell.innerHTML = currentPlayer;
-  //   const r = document.querySelector(":root");
-  //   r.style.setProperty("--cell-player-color", "white");
-}
-
-function handlePlayerChange() {
-  currentPlayer = currentPlayer === "X" ? "O" : "X";
-  statusDisplay.innerHTML = currentPlayerTurn();
-}
-
-function handleCellClick(clickedCellEvent) {
-  const clickedCell = clickedCellEvent.target;
-  const clickedCellIndex = parseInt(
-    clickedCell.getAttribute("data-cell-index")
-  );
-
-  if (gameState[clickedCellIndex] !== "" || !gameActive) {
-    return;
-  }
-
-  handleCellPlayed(clickedCell, clickedCellIndex);
-  const roundwon = handleResultValidation(dimension, gameState, currentPlayer);
-
-  if (roundwon) {
-    const gameStatusStringDom =
-      document.getElementsByClassName("game_status")[0];
-    gameStatusStringDom.classList.add("animation-effects");
-    console.log(gameStatusStringDom);
-    statusDisplay.innerHTML = winningMessage();
-    gameActive = false;
-    return;
-  }
-  let drawround = !gameState.includes("");
-  if (drawround) {
-    statusDisplay.innerHTML = drawMessage();
-    gameActive = false;
-    return;
-  }
-  handlePlayerChange();
-}
+const mouseoverPlayer = () => `${playerObj.getCurrentPlayer()}`;
 
 function handleRestartGame() {
   const gameStatusStringDom = document.getElementsByClassName("game_status")[0];
   gameStatusStringDom.classList.remove("animation-effects");
 
-  gameActive = true;
-  currentPlayer = "X";
+  initializeGameState();
 
-  gameState = setGameState(dimension);
-  console.log(gameState);
-  statusDisplay.innerHTML = currentPlayerTurn();
   document.querySelectorAll(".cell").forEach((cell) => (cell.innerHTML = ""));
 }
 
@@ -137,10 +128,9 @@ function findCurrentIndex(event) {
 }
 function mouseOver(mouseOvered) {
   const overCellIndex = findCurrentIndex(mouseOvered);
+
   if (gameActive && gameState[overCellIndex] === "") {
     playerDisplay[overCellIndex].innerHTML = mouseoverPlayer();
-    // const r = document.querySelector(":root");
-    // r.style.setProperty("--cell-player-color", "#04c0b2");
   }
 }
 function mouseOut(mouseOvered) {
@@ -151,9 +141,12 @@ function mouseOut(mouseOvered) {
 }
 
 function assignListeners() {
-  document
-    .querySelectorAll(".cell")
-    .forEach((cell) => cell.addEventListener("click", handleCellClick));
+  document.querySelectorAll(".cell").forEach((cell) =>
+    cell.addEventListener("click", function (event) {
+      playerObj = cellObj.handleCellClick(event, gameActive);
+      playGame();
+    })
+  );
   document
     .querySelector(".restart_game")
     .addEventListener("click", handleRestartGame);
